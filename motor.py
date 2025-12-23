@@ -6,9 +6,10 @@ PWM_R = 27        # BCM pin where the LED is connected
 DIR_R = 17 # seconds LED stays on and off
 PWM_L = 5       # BCM pin where the LED is connected
 DIR_L = 6 # seconds LED stays on and off
-
+LED = 22
 # Defer GPIO setup to initialization function to avoid failures at import time
 _gpio_initialized = False
+LED_STATE = False
 
 def init_gpio():
     global _gpio_initialized
@@ -20,11 +21,16 @@ def init_gpio():
         GPIO.setup(DIR_R, GPIO.OUT)
         GPIO.setup(PWM_L, GPIO.OUT)
         GPIO.setup(DIR_L, GPIO.OUT)
+        GPIO.setup(LED, GPIO.OUT)
+
 
         GPIO.output(DIR_R, GPIO.LOW)
         GPIO.output(PWM_R, GPIO.LOW)
         GPIO.output(DIR_L, GPIO.LOW)
         GPIO.output(PWM_L, GPIO.LOW)
+        GPIO.output(LED, GPIO.LOW)
+        global LED_STATE
+        LED_STATE = False
         _gpio_initialized = True
     except Exception as e:
         print(f"Warning: GPIO initialization failed: {e}")
@@ -61,6 +67,23 @@ def turnRight(timeInSeconds: int):
   GPIO.output(PWM_R, GPIO.LOW)
   GPIO.output(PWM_L, GPIO.LOW)
 
+def turnOnLed():
+  GPIO.output(LED, GPIO.HIGH)
+  global LED_STATE
+  LED_STATE = True
+
+def turnOffLed():
+  GPIO.output(LED, GPIO.LOW)
+  global LED_STATE
+  LED_STATE = False
+
+def toggleLed():
+  global LED_STATE
+  if LED_STATE:
+    turnOffLed()
+  else:
+    turnOnLed()
+  return LED_STATE
 # try:
 #   init_gpio()
 #   forward(2)

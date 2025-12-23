@@ -35,6 +35,23 @@ if not ENABLE_REAL_GPIO:
     motor.PWM_L = 5
     motor.DIR_R = 17
     motor.DIR_L = 6
+    motor.LED = 22
+    motor._led_state = False
+    def _led_on():
+        motor.GPIO.output(motor.LED, motor.GPIO.HIGH)
+        motor._led_state = True
+    def _led_off():
+        motor.GPIO.output(motor.LED, motor.GPIO.LOW)
+        motor._led_state = False
+    def _led_toggle():
+        if motor._led_state:
+            _led_off()
+        else:
+            _led_on()
+        return motor._led_state
+    motor.turnOnLed = _led_on
+    motor.turnOffLed = _led_off
+    motor.toggleLed = _led_toggle
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -116,6 +133,15 @@ def api_stop():
     except Exception:
         pass
     return jsonify({'status': 'stopped'})
+
+
+@app.route('/api/led', methods=['POST'])
+def api_led():
+    try:
+        new_state = motor.toggleLed()
+        return jsonify({'led': 'on' if new_state else 'off'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/api/status', methods=['GET'])
