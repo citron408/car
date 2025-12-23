@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+  <title>Light bulb</title>
+  <g fill="none" fill-rule="evenodd">
+    <path d="M32 6c-7.732 0-14 6.268-14 14 0 4.596 2.154 8.694 5.61 11.503C25.08 33.454 26 35.24 26 37v1c0 .553.448 1 1 1h10c.552 0 1-.447 1-1v-1c0-1.76.92-3.546 2.39-5.497C43.846 28.694 46 24.596 46 20 46 12.268 39.732 6 32 6z" fill="#FFD54A"/>
+    <path d="M26 44c0 1.657 2.686 3 6 3s6-1.343 6-3v-4H26v4z" fill="#B0BEC5"/>
+    <rect x="26" y="48" width="12" height="6" rx="1" fill="#90A4AE"/>
+    <path d="M28 54h8v2a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-2z" fill="#78909C"/>
+    <circle cx="32" cy="20" r="2" fill="#FFF176" opacity="0.6"/>
+  </g>
+</svg>
