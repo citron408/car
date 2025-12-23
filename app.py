@@ -5,11 +5,18 @@ import time
 # Use stub GPIO for development/testing (motor control will not physically run GPIO pins)
 # On a real Raspberry Pi with GPIO, set `ENABLE_REAL_GPIO = True` and run with sudo
 ENABLE_REAL_GPIO = True
+led_module = None
 
 if ENABLE_REAL_GPIO:
     try:
         import motor
+        import led
         motor.init_gpio()
+        try:
+            led.init_gpio()
+        except Exception:
+            pass
+        led_module = led
     except Exception as e:
         print(f"Warning: motor module import/init failed: {e}")
         ENABLE_REAL_GPIO = False
@@ -36,22 +43,25 @@ if not ENABLE_REAL_GPIO:
     motor.DIR_R = 17
     motor.DIR_L = 6
     motor.LED = 22
-    motor._led_state = False
+    # led stub
+    led_mod = type('led_stub', (), {})()
+    led_mod._led_state = False
     def _led_on():
         motor.GPIO.output(motor.LED, motor.GPIO.HIGH)
-        motor._led_state = True
+        led_mod._led_state = True
     def _led_off():
         motor.GPIO.output(motor.LED, motor.GPIO.LOW)
-        motor._led_state = False
+        led_mod._led_state = False
     def _led_toggle():
-        if motor._led_state:
+        if led_mod._led_state:
             _led_off()
         else:
             _led_on()
-        return motor._led_state
-    motor.turnOnLed = _led_on
-    motor.turnOffLed = _led_off
-    motor.toggleLed = _led_toggle
+        return led_mod._led_state
+    led_mod.turnOnLed = _led_on
+    led_mod.turnOffLed = _led_off
+    led_mod.toggleLed = _led_toggle
+    led_module = led_mod
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -138,7 +148,7 @@ def api_stop():
 @app.route('/api/led', methods=['POST'])
 def api_led():
     try:
-        new_state = motor.toggleLed()
+        new_state = led_module.toggleLed()
         return jsonify({'led': 'on' if new_state else 'off'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
