@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 # Configuration (tiny and obvious)
 PWM_R = 27
 DIR_R = 17
-PWM_L = 5
+PWM_L = 13
 DIR_L = 6
 # Defer GPIO setup to initialization function to avoid failures at import time
 _gpio_initialized = False

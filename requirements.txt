@@ -1,2 +1,5 @@
 RPi.GPIO
 Flask
+numpy
+opencv-python
+picamera2

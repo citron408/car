@@ -49,6 +49,31 @@
       #backward { grid-column: 2; grid-row: 3; }
       
       #status { margin-top: 2rem; }
+
+      .camera-panel {
+        max-width: 760px;
+        margin: 1.5rem auto 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .camera-feed {
+        width: 100%;
+        max-width: 720px;
+        border-radius: 6px;
+        border: 1px solid #999;
+      }
+
+      #cameraHealth {
+        margin-top: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      #detectionList {
+        margin-top: 0.5rem;
+        min-height: 1.2rem;
+      }
     </style>
   </head>
   <body>
@@ -69,6 +94,14 @@
     </div>
 
     <div id="status">Status: <span id="statusText">idle</span></div>
+
+    <div class="camera-panel">
+      <h2>Camera + Object Detection</h2>
+      <img id="cameraFeed" class="camera-feed" src="/camera/stream" alt="camera stream" />
+      <div id="cameraHealth">Camera status: loading...</div>
+      <div><strong>Detections:</strong></div>
+      <ul id="detectionList"></ul>
+    </div>
 
     <script src="/static/main.js"></script>
   </body>
