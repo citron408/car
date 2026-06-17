@@ -9,6 +9,11 @@ This project is a tiny web-controlled car app.
 	- Motor actions (`forward`, `backward`, `left`, `turnRight`, `stop`)
 	- LED toggle (`/api/led`)
 
+
+## Wireing diagram
+![image info](./docs/Raspberry%20PI.jpg)
+
+
 ## How It Works
 
 1. You open the web page (`/`).
